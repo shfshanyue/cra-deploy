@@ -2,9 +2,10 @@ FROM node:16-alpine as builder
 
 WORKDIR /code
 
-ADD package.json yarn.lock /code
+ADD package.json yarn.lock /code/
 RUN yarn
 ADD . /code
+RUN npm run build
 
 # 选择更小体积的基础镜像
 FROM nginx:alpine
