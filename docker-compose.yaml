@@ -12,3 +12,12 @@ services:
       dockerfile: simple.Dockerfile
     ports:
       - 4000:80
+  oss:
+    build:
+      context: .
+      dockerfile: cdn.Dockerfile
+    environment:
+      - ACCESS_KEY_ID
+      - ACCESS_KEY_SECRET
+    ports:
+      - 5000:80
