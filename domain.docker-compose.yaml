@@ -1,0 +1,15 @@
+version: "3"
+services:
+  domain:
+    build:
+      context: .
+      dockerfile: router.Dockerfile
+    labels:
+      - "traefik.http.routers.cra.rule=Host(`cra.shanyue.tech`)"
+      - traefik.http.routers.cra.tls=true
+      - traefik.http.routers.cra.tls.certresolver=le
+
+networks:
+  default:
+    external:
+      name: traefik_default
