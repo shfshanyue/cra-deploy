@@ -1,0 +1,37 @@
+name: Build
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14.x
+      - name: Install Dependencies
+        run: yarn
+      - name: Build Dependencies
+        run: npm run build
+  build-with-cache:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14.x
+      - name: Cache Node Modules
+        id: cache-node-modules
+        uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: node-modules-${{ hashFiles('package-lock.json') }}
+          restore-keys: node-modules-
+      - name: Check Install/Build Cache
+        run: ls -lah node_modules | head -5 && ls -lah node_modules/.cache
+      - name: Install Dependencies
+        if: steps.cache-node-modules.outputs.cache-hit != 'true'
+        run: yarn
+      - name: Build Dependencies
+        run: npm run build
