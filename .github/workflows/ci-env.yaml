@@ -1,0 +1,12 @@
+name: CI Env Check
+on: [push]
+jobs:
+  env:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: echo $CI
+      - run: echo $GITHUB_REPOSITORY
+      - run: echo $GITHUB_EVENT_NAME
+      - run: echo $GITHUB_SHA
+      - run: echo $GITHUB_REF_NAME
