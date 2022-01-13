@@ -14,13 +14,14 @@ jobs:
         uses: actions/cache@v2
         with:
           path: node_modules
-          key: node-modules-${{ hashFiles('package-lock.json') }}
+          key: node-modules-${{ hashFiles('yarn.lock') }}
           restore-keys: node-modules-
       - name: Install Dependencies
         if: steps.cache-node-modules.outputs.cache-hit != 'true'
         run: yarn
   lint:
     runs-on: ubuntu-latest
+    # 通过 needs 字段可设置前置依赖的 Job，比如 install
     needs: install
     steps:
       - uses: actions/checkout@v2
@@ -33,7 +34,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: node_modules
-          key: node-modules-${{ hashFiles('package-lock.json') }}
+          key: node-modules-${{ hashFiles('yarn.lock') }}
           restore-keys: node-modules-
       - name: ESLint
         run: npm run build
@@ -51,7 +52,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: node_modules
-          key: node-modules-${{ hashFiles('package-lock.json') }}
+          key: node-modules-${{ hashFiles('yarn.lock') }}
           restore-keys: node-modules-
       - name: Test
         run: npm run test

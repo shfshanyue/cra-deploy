@@ -22,15 +22,26 @@ jobs:
         with:
           node-version: 14.x
       - name: Cache Node Modules
+        # 为 step 设置 id，可通过 steps.[id].outputs 获取到该步骤的值
+        # 在往下两步，安装依赖时，将有用到
         id: cache-node-modules
+        # 使用 cache action 进行目录资源缓存
         uses: actions/cache@v2
         with:
+          # 对 node_modules 目录进行缓存
           path: node_modules
-          key: node-modules-${{ hashFiles('package-lock.json') }}
+          # 根据字段 node-modules- 与 yarn.lock 的 hash 值作为 key
+          # 当 yarn.lock 内容未发生更改时，key 将不会更改，则命中缓存
+          # 如果使用 npm 作为包管理工具，则是 package-lock.json
+          key: node-modules-${{ hashFiles('yarn.lock') }}
           restore-keys: node-modules-
+      
+      # 查看缓存是否设置成功，输出 node_modules 目录
       - name: Check Install/Build Cache
-        run: ls -lah node_modules | head -5 && ls -lah node_modules/.cache
+        run: ls -lah node_modules | head -5
+
       - name: Install Dependencies
+        # 如果命中 key，则直接跳过依赖安装
         if: steps.cache-node-modules.outputs.cache-hit != 'true'
         run: yarn
       - name: Build Dependencies
