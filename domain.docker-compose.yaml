@@ -8,6 +8,9 @@ services:
       # 配置域名
       - "traefik.http.routers.cra.rule=Host(`cra.shanyue.tech`)"
 
+      # 配置域名: Preview
+      - "traefik.http.routers.cra.rule=Host(`cra.${REF_NAME}.shanyue.tech`)"
+
       # 配置 TLS
       - traefik.http.routers.cra.tls=true
       - traefik.http.routers.cra.tls.certresolver=le

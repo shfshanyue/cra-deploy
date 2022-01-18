@@ -1,10 +1,8 @@
-# 关于本次 workflow 的名字
 name: Preview
 
-# 执行 CI 的时机: 当 git push 
+# 执行 CI 的时机: 当 git push 到 feature-* 分支时
 on:
   push:
-    # Sequence of patterns matched against refs/heads
     branches:    
       - 'feature-*'
 
@@ -13,6 +11,8 @@ jobs:
   preview:
     runs-on: ubuntu-latest
     environment:
+      # 获取 CICD 中的变量: Context
+      # https://docs.github.com/en/actions/learn-github-actions/expressions
       name: preview/${{ github.ref_name }}
       url: https://${{ github.ref_name	}}.dev.shanyue.tech
     steps:
@@ -27,5 +27,6 @@ jobs:
         with:
           node-version: 14.x
 
+      # 仅仅是为了测试
       - name: Preview
         run: "echo 'Preview OK'"
