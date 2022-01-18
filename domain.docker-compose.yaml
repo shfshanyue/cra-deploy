@@ -6,14 +6,16 @@ services:
       dockerfile: router.Dockerfile
     labels:
       # 配置域名
-      - "traefik.http.routers.cra.rule=Host(`cra.shanyue.tech`)"
+       - "traefik.http.routers.cra.rule=Host(`cra.shanyue.tech`)"
 
-      # 配置域名: Preview
-      - "traefik.http.routers.cra.rule=Host(`cra.${REF_NAME}.shanyue.tech`)"
+       # 配置 TLS
+       - traefik.http.routers.cra.tls=true
+       - traefik.http.routers.cra.tls.certresolver=le
 
-      # 配置 TLS
-      - traefik.http.routers.cra.tls=true
-      - traefik.http.routers.cra.tls.certresolver=le
+       # 配置域名: Preview
+       - "traefik.http.routers.cra-preview-${REF_NAME}.rule=Host(`cra.${REF_NAME}.shanyue.tech`)"
+       - traefik.http.routers.cra-preview-${REF_NAME}.tls=true
+       - traefik.http.routers.cra-preview-${REF_NAME}.tls.certresolver=le
 
 # 一定要与 traefik 在同一网络下
 networks:

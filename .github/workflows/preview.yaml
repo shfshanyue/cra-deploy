@@ -9,24 +9,17 @@ on:
 # 执行所有的 jobs
 jobs:
   preview:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     environment:
       # 获取 CICD 中的变量: Context
       # https://docs.github.com/en/actions/learn-github-actions/expressions
       name: preview/${{ github.ref_name }}
-      url: https://${{ github.ref_name	}}.dev.shanyue.tech
+      url: https://cra.${{ github.ref_name	}}.shanyue.tech
     steps:
       # 切出代码，使用该 Action 将可以拉取最新代码
       - uses: actions/checkout@v2
-
-      # 配置 node.js 环境，此时使用的是 node14
-      # 注意此处 node.js 版本，与 Docker 中版本一致，与 package.json 中 engines.node 版本一致
-      # 如果需要测试不同 node.js 环境下的表现，可使用 matrix
-      - name: Setup Node
-        uses: actions/setup-node@v1
-        with:
-          node-version: 14.x
-
-      # 仅仅是为了测试
+      - run: pwd && ls -lah
       - name: Preview
-        run: "echo 'Preview OK'"
+        run: docker-compose -f domain.docker-compose.yaml up --build -d
+        env:
+          REF_NAME: ${{ github.ref_name }}
