@@ -15,9 +15,10 @@ services:
   oss:
     build:
       context: .
-      dockerfile: cdn.Dockerfile
-    environment:
-      - ACCESS_KEY_ID
-      - ACCESS_KEY_SECRET
+      dockerfile: oss.Dockerfile
+      args:
+        - ACCESS_KEY_ID
+        - ACCESS_KEY_SECRET
+        - ENDPOINT=oss-cn-beijing.aliyuncs.com
     ports:
-      - 5000:80
+      - 8000:80

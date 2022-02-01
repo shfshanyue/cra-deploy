@@ -1,35 +1,28 @@
-# 使用 Docker 部署前端之简单版
+# Docker 部署前端之 CRA 版
 
 + [Dockerfile Reference](https://docs.docker.com/engine/reference/builder/)
 + [Compose file Reference](https://docs.docker.com/compose/compose-file/compose-file-v3/)
 
-## 琐碎版: docker cli
+另外，还有[Docker 部署前端之简单版](https://github.com/shfshanyue/simple-deploy)
 
-使用 `docker` 命令行工具去构建及运行容器
+## 简单版
+
+此版本，已解决了构建缓存，并通过多阶段构建。
 
 ``` bash
-# 构建一个名为 simple-app 的镜像
-$ docker build -f node.Dockerfile -t simple-node-app .
-
-# 根据该镜像运行容器
-$ docker run -d --rm -p 3000:3000 simple-node-app
+$ docker-compose up --build simple
 ```
+## 路由版
 
-## nginx版: docker cli
-
-使用 `docker` 命令行工具去构建及运行容器
+此版本，通过 `nginx.conf` 解决了客户端路由的问题。
 
 ``` bash
-# 构建一个名为 simple-app 的镜像
-$ docker build -f nginx.Dockerfile -t simple-nginx-app .
-
-# 根据该镜像运行容器
-$ docker run -d --rm -p 3000:80 simple-nginx-app
+$ docker-compose up --build route
 ```
-## 高效版: docker-compose
+## 云服务
 
-使用 `docker-compose` 运行容器，同时部署 node 版与 nginx 版
+此版本，将静态咨询传至 OSS，此时需要提供两个环境变量: `ACCESS_KEY_ID` 与 `ACCESS_KEY_SECRET`。
 
 ``` bash
-$ docker-compose up --build
+$ docker-compose up --build oss
 ```
