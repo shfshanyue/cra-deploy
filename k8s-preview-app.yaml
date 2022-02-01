@@ -3,8 +3,7 @@ kind: Deployment
 metadata:
   name: cra-deployment-${COMMIT_REF}
 spec:
-  selector:
-    matchLabels:
+  selector: matchLabels:
       app: cra
   replicas: 3
   template:
@@ -14,7 +13,7 @@ spec:
     spec:
       containers:
       - name: cra-deploy
-        image: cra-deploy-app
+        image: cra-deploy-app:${COMMIT_REF}
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 80
