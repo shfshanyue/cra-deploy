@@ -1,27 +1,25 @@
 name: Preview
 
-# 执行 CI 的时机: 当 git push 到 feature-* 分支时
+# 执行 CI 的时机: 当 git push 到 master 分支时
 on:
   push:
     branches:    
-      - 'feature-*'
+      - master
 
 # 执行所有的 jobs
 jobs:
-  preview:
+  deploy:
     # 该 Job 在自建的 Runner 中执行
     runs-on: self-hosted
     environment:
       # 获取 CICD 中的变量: Context
       # https://docs.github.com/en/actions/learn-github-actions/expressions
-      name: preview/${{ github.ref_name }}
-      url: https://${{ github.ref_name	}}.cra.shanyue.tech
+      name: Deploy
+      url: https://cra.shanyue.tech
     steps:
       # 切出代码，使用该 Action 将可以拉取最新代码
       - uses: actions/checkout@v2
-      - name: Preview
-        run: |
-          cat preview.docker-compose.yaml | envsubst > docker-compose.yaml
-          docker-compose up --build -d cra-preview-${COMMIT_REF_NAME}
+      - name: Deploy
+        run: docker-compose -f domain.docker-compose.yaml up --build -d domain
         env:
           COMMIT_REF_NAME: ${{ github.ref_name }}
