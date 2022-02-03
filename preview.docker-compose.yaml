@@ -1,0 +1,17 @@
+version: "3"
+services:
+  cra-preview-${COMMIT_REF_NAME}:
+    build:
+      context: .
+      dockerfile: router.Dockerfile
+    labels:
+       # 配置域名: Preview
+       - "traefik.http.routers.cra-preview-${COMMIT_REF_NAME}.rule=Host(`${COMMIT_REF_NAME}.cra.shanyue.tech`)"
+       - traefik.http.routers.cra-preview-${COMMIT_REF_NAME}.tls=true
+       - traefik.http.routers.cra-preview-${COMMIT_REF_NAME}.tls.certresolver=le
+
+# 一定要与 traefik 在同一网络下
+networks:
+  default:
+    external:
+      name: traefik_default

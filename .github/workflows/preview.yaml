@@ -14,12 +14,13 @@ jobs:
       # 获取 CICD 中的变量: Context
       # https://docs.github.com/en/actions/learn-github-actions/expressions
       name: preview/${{ github.ref_name }}
-      url: https://cra.${{ github.ref_name	}}.shanyue.tech
+      url: https://${{ github.ref_name	}}.cra.shanyue.tech
     steps:
       # 切出代码，使用该 Action 将可以拉取最新代码
       - uses: actions/checkout@v2
-      - run: pwd && ls -lah
       - name: Preview
-        run: docker-compose -f domain.docker-compose.yaml up --build -d
+        run: |
+          cat preview.docker-compose.yaml | envsubst > docker-compose.yaml
+          docker-compose -f docker-compose.yaml up --build -d
         env:
-          REF_NAME: ${{ github.ref_name }}
+          COMMIT_REF_NAME: ${{ github.ref_name }}

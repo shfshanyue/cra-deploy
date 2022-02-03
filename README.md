@@ -12,17 +12,33 @@
 ``` bash
 $ docker-compose up --build simple
 ```
-## 路由版
+## 路由修复版
 
 此版本，通过 `nginx.conf` 解决了客户端路由的问题。
 
 ``` bash
 $ docker-compose up --build route
 ```
-## 云服务
+## CDN/OSS 版
 
 此版本，将静态咨询传至 OSS，此时需要提供两个环境变量: `ACCESS_KEY_ID` 与 `ACCESS_KEY_SECRET`。
 
 ``` bash
 $ docker-compose up --build oss
 ```
+
+## Preview 版
+
+``` bash
+$ cat preview.docker-compose.yaml | COMMIT_REF_NAME=$(git rev-parse --abbrev-ref HEAD) envsubst > temp.docker-compose.yaml
+
+$ docker-compose -f temp.docker-compose.yaml up --build
+```
+
+## kubernetes 版
+
+``` bash
+$ kubectl apply -f k8s-app.yaml
+```
+
+## k8s Preview 版

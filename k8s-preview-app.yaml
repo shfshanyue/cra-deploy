@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: cra-deployment-${COMMIT_REF}
+  name: cra-deployment-${COMMIT_REF_NAME}
 spec:
   selector: matchLabels:
       app: cra
@@ -13,7 +13,7 @@ spec:
     spec:
       containers:
       - name: cra-deploy
-        image: cra-deploy-app:${COMMIT_REF}
+        image: cra-deploy-app:${COMMIT_REF_NAME}
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 80
@@ -23,7 +23,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: cra-service-${COMMIT_REF}
+  name: cra-service-${COMMIT_REF_NAME}
 spec:
   selector:
     app: cra
@@ -31,4 +31,3 @@ spec:
   - protocol: TCP
     port: 80
     targetPort: 80
-

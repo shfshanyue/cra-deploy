@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: cra-deployment-${COMMIT_REF}
+  name: cra-deployment
 spec:
   selector:
     matchLabels:
@@ -24,7 +24,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: cra-service-${COMMIT_REF}
+  name: cra-service
 spec:
   selector:
     app: cra
@@ -32,4 +32,3 @@ spec:
   - protocol: TCP
     port: 80
     targetPort: 80
-
