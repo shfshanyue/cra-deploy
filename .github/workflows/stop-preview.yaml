@@ -1,15 +1,15 @@
-name: Pull Request Test
+# 为了避免服务器资源浪费，每次当 PR 被合并或者关闭时，自动停止对应的 Preview 容器
+name: Stop Preview
 
 on:
   pull_request:
     types:
       # 当 feature 分支关闭时，
       - closed
-    branches:    
-      - feature-*
 
 jobs:
-  pr:
+  run-if:
+  stop-preview:
     runs-on: ubuntu-latest
     steps:
       # 切出代码，使用该 Action 将可以拉取最新代码
@@ -19,4 +19,4 @@ jobs:
           cat preview.docker-compose.yaml | envsubst > docker-compose.yaml
           docker-compose stop
         env:
-          COMMIT_REF_NAME: ${{ github.ref_name }}
+          COMMIT_REF_NAME: ${{ github.head_ref }}

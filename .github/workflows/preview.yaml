@@ -1,3 +1,4 @@
+# 为了试验，此处作为单独的 Workflow，在实际工作中可 Install -> Lint、Test -> Preview 串行检验
 name: Preview
 
 # 执行 CI 的时机: 当 git push 到 feature-* 分支时
