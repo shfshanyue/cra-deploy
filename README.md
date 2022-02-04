@@ -29,10 +29,22 @@ $ docker-compose up --build oss
 
 ## Preview 版
 
+当往分支 feature-xxx 提交代码时，将会自动部署一个供该分支测试的地址: `feature-xxx.cra.shanyue.tech`
+
+**Preview**
+
 ``` bash
 $ cat preview.docker-compose.yaml | COMMIT_REF_NAME=$(git rev-parse --abbrev-ref HEAD) envsubst > temp.docker-compose.yaml
 
 $ docker-compose -f temp.docker-compose.yaml up --build
+```
+
+**Stop Preview**
+
+``` bash
+$ cat preview.docker-compose.yaml | COMMIT_REF_NAME=$(git rev-parse --abbrev-ref HEAD) envsubst > temp.docker-compose.yaml
+
+$ docker-compose stop
 ```
 
 ## kubernetes 版
@@ -42,3 +54,9 @@ $ kubectl apply -f k8s-app.yaml
 ```
 
 ## k8s Preview 版
+
+``` bash
+$ cat k8s-preview-app.yaml | COMMIT_REF_NAME=$(git rev-parse --abbrev-ref HEAD) envsubst > temp.k8s-app.yaml
+
+$ kubectl apply -f temp.k8s-app.yaml
+```
