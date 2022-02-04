@@ -8,13 +8,15 @@ on:
       - closed
 
 jobs:
-  run-if:
   stop-preview:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
-      # 切出代码，使用该 Action 将可以拉取最新代码
+      # - name: stop preview
+      #   # 根据 Label 找到对应的容器，并停止服务，因为无需代码，所以用不到 checkout
+      #   run: docker ps -f label="com.docker.compose.service=cra-preview-${COMMIT_REF_NAME}" -q | xargs docker stop
+
       - uses: actions/checkout@v2
-      - name: Stop Preview
+      - name: stop preview
         run: |
           cat preview.docker-compose.yaml | envsubst > docker-compose.yaml
           docker-compose stop
