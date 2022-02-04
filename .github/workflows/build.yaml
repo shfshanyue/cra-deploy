@@ -1,5 +1,9 @@
+# 为了试验 CI Cache，此处作为单独的 Workflow
 name: Build
-on: [push]
+on:
+  push:
+    branches:
+      - master
 jobs:
   build:
     runs-on: ubuntu-latest
