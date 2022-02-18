@@ -27,6 +27,7 @@ metadata:
   name: cra-service
 spec:
   selector:
+    # 根据 Label 匹配应用
     app: cra
   ports:
   - protocol: TCP

@@ -13,7 +13,7 @@ spec:
     spec:
       containers:
       - name: cra-deploy
-        image: cra-deploy-app:${COMMIT_REF_NAME}
+        image: cra-deploy-app:${COMMIT_SHA}
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 80
