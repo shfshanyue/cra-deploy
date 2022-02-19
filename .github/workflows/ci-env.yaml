@@ -5,6 +5,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+
+      # Default Environment Variables
+      # https://docs.github.com/en/actions/learn-github-actions/environment-variables#default-environment-variables
       - run: echo $CI
       - run: echo $GITHUB_REPOSITORY
       - run: echo $GITHUB_EVENT_NAME
@@ -13,3 +16,23 @@ jobs:
       - run: echo $GITHUB_HEAD_REF
       - name: Dump GitHub context
         run: echo '${{ toJSON(github) }}'
+
+      # 如何在 Github Actions 中设置环境变量
+      # https://docs.github.com/en/actions/learn-github-actions/environment-variables
+      - run: echo $CURRENT_USER
+        env:
+          CURRENT_USER: shanyue
+
+      # 通过 export 设置的环境变量无法在接下来的 Steps 中复用
+      - run: |
+          export CURRENT_USER=$(echo shanyue)
+          echo $CURRENT_USER
+      # 此处无法复用上个 Step 通过 export 设置的环境变量
+      - run: echo $CURRENT_USER
+
+      - name: Check GITHUB_ENV
+        run: |
+          echo $GITHUB_ENV
+          cat $GITHUB_ENV
+      - run: echo CURRENT_USER=$(echo shanyue) >> $GITHUB_ENV
+      - run: echo $CURRENT_USER
