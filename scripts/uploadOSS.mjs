@@ -30,7 +30,7 @@ async function isExistObject (objectName) {
 // withHash: 该文件名是否携带 hash 值
 async function uploadFile (objectName, withHash = false) {
   const file = resolve('./build', objectName)
-  // 如果路径名称不带有 hash 值，则直接判断在 OSS 中不存在该文件名，需要重新上传
+  // 如果路径名称不带有 hash 值，则直接重新上传 -> 此处可优化
   const exist = withHash ? await isExistObject(objectName) : false
   if (!exist) {
     const cacheControl = withHash ? 'max-age=31536000' : 'no-cache'
