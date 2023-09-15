@@ -3,7 +3,8 @@ kind: Deployment
 metadata:
   name: cra-deployment-${COMMIT_REF_NAME}
 spec:
-  selector: matchLabels:
+  selector:
+    matchLabels:
       app: cra
   replicas: 3
   template:
