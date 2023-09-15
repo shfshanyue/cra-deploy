@@ -3,7 +3,7 @@ name: Production
 # 执行 CI 的时机: 当 git push 到 master 分支时
 on:
   push:
-    branches:    
+    branches:
       - master
 
 # 执行所有的 jobs
